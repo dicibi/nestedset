@@ -671,7 +671,7 @@ Schema::table('table', function (Blueprint $table) {
 Your model should use `Kalnoy\Nestedset\NodeTrait` trait to enable nested sets:
 
 ```php
-use Kalnoy\Nestedset\NodeTrait;
+use Kalnoy\Nestedset\Eloquent\Concerns\NodeTrait;
 
 class Foo extends Model {
     use NodeTrait;

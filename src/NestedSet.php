@@ -3,54 +3,51 @@
 namespace Kalnoy\Nestedset;
 
 use Illuminate\Database\Schema\Blueprint;
+use Kalnoy\Nestedset\Eloquent\Concerns\NodeTrait;
 
 class NestedSet
 {
     /**
      * The name of default lft column.
      */
-    const LFT = '_lft';
+    const string LFT = '_lft';
 
     /**
      * The name of default rgt column.
      */
-    const RGT = '_rgt';
+    const string RGT = '_rgt';
 
     /**
      * The name of default parent id column.
      */
-    const PARENT_ID = 'parent_id';
+    const string PARENT_ID = 'parent_id';
 
     /**
      * Insert direction.
      */
-    const BEFORE = 1;
+    const int BEFORE = 1;
 
     /**
      * Insert direction.
      */
-    const AFTER = 2;
+    const int AFTER = 2;
 
     /**
      * Add default nested set columns to the table. Also create an index.
-     *
-     * @param \Illuminate\Database\Schema\Blueprint $table
      */
-    public static function columns(Blueprint $table)
+    public static function columns(Blueprint $table): void
     {
-        $table->unsignedInteger(self::LFT)->default(0);
-        $table->unsignedInteger(self::RGT)->default(0);
-        $table->unsignedInteger(self::PARENT_ID)->nullable();
+        $table->unsignedBigInteger(self::LFT)->default(0);
+        $table->unsignedBigInteger(self::RGT)->default(0);
+        $table->unsignedBigInteger(self::PARENT_ID)->nullable();
 
         $table->index(static::getDefaultColumns());
     }
 
     /**
      * Drop NestedSet columns.
-     *
-     * @param \Illuminate\Database\Schema\Blueprint $table
      */
-    public static function dropColumns(Blueprint $table)
+    public static function dropColumns(Blueprint $table): void
     {
         $columns = static::getDefaultColumns();
 
@@ -61,23 +58,18 @@ class NestedSet
     /**
      * Get a list of default columns.
      *
-     * @return array
+     * @return array<array-key, string>
      */
-    public static function getDefaultColumns()
+    public static function getDefaultColumns(): array
     {
-        return [ static::LFT, static::RGT, static::PARENT_ID ];
+        return [static::LFT, static::RGT, static::PARENT_ID];
     }
 
     /**
      * Replaces instanceof calls for this trait.
-     *
-     * @param mixed $node
-     *
-     * @return bool
      */
-    public static function isNode($node)
+    public static function hasNodeTrait(mixed $node): bool
     {
-        return is_object($node) && in_array(NodeTrait::class, (array)$node);
+        return is_object($node) && in_array(NodeTrait::class, (array) $node);
     }
-
 }

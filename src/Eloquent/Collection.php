@@ -1,10 +1,18 @@
 <?php
 
-namespace Kalnoy\Nestedset;
+namespace Kalnoy\Nestedset\Eloquent;
 
 use Illuminate\Database\Eloquent\Collection as BaseCollection;
 use Illuminate\Database\Eloquent\Model;
+use Kalnoy\Nestedset\Eloquent\Concerns\NodeTrait;
+use Kalnoy\Nestedset\NestedSet;
 
+/**
+ * @template TKey of array-key
+ * @template TModel of Model
+ *
+ * @template-extends BaseCollection<TKey, TModel>
+ */
 class Collection extends BaseCollection
 {
     /**
@@ -79,7 +87,7 @@ class Collection extends BaseCollection
      */
     protected function getRootNodeId($root = false)
     {
-        if (NestedSet::isNode($root)) {
+        if (NestedSet::hasNodeTrait($root)) {
             return $root->getKey();
         }
 
