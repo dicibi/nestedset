@@ -406,7 +406,7 @@ trait NodeTrait
         return true;
     }
 
-    public function rawNode(int $lft, int $rgt, int|null $parentId): static
+    public function rawNode(int $lft, int $rgt, int|string|null $parentId): static
     {
         $this->setLft($lft)->setRgt($rgt)->setParentId($parentId);
 
