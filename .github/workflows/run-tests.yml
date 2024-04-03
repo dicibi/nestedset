@@ -39,4 +39,4 @@ jobs:
           composer install -o --quiet
 
       - name: Execute Unit Tests
-        run: composer test
+        run: vendor/bin/phpunit
